@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: github-mirror:latest
+    volumes:
+      - /Users/dapangyu/github-mirror/gitserver/repo:/root/repo
+    ports:
+      - "8001:8000"
+    environment:
+      - DOMAIN_NAME=0.0.0.0:3000
+  nginx:
+    image: nginx:latest
+    volumes:
+      -  /Users/dapangyu/github-mirror/gitserver/repo:/root/repo
+      - ./nginx:/etc/nginx
+    ports:
+      - "3000:80"
+    environment:
+      - DOMAIN_NAME="192.168.111.225:3000"
