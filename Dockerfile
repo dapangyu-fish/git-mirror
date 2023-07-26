@@ -64,7 +64,7 @@ CMD python -m gunicorn gitserver:app -w 16 --port 8000
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
-                            echo "python -m gunicorn gitserver:app -w 1 -b 0.0.0.0:8000" >> /entrypoint.sh
+                            echo "python -m gunicorn gitserver:app --workers 10 --backlog 50 --bind 0.0.0.0:8000" >> /entrypoint.sh
 
 EXPOSE 8000
 

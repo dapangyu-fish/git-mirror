@@ -1,9 +1,10 @@
 import json
 import os
-from flask import Flask, Response, request, jsonify
+from flask import Flask, Response, request, jsonify, after_this_request
 
 from pathlib import Path
 from service.gitshark import GitShark
+from service.redis_test import RedisShark, redis_obj
 
 DOMAIN_NAME = os.environ.get('DOMAIN_NAME')
 app = Flask(__name__)
@@ -28,6 +29,12 @@ def streaming_get(path_with_namespace):
 
 @app.route('/<path:path_with_namespace>/<path:service>', methods=['POST'])
 def streaming_post(path_with_namespace, service):
+    # r = RedisShark("/test_repo_lfs.git", redis_obj)
+    #
+    # @after_this_request
+    # def after_request():
+    #     r.end_read_repo()
+
     if service == "info/lfs/objects/batch":
         # lfs请求
         data = json.loads(request.data)

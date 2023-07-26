@@ -20,3 +20,5 @@ services:
       - "3000:80"
     environment:
       - DOMAIN_NAME="192.168.111.225:3000"
+  redis:
+    image: redis:latest
