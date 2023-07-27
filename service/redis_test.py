@@ -6,7 +6,7 @@ from enum import Enum
 
 time.sleep(2)
 
-redis_obj = redis.Redis(host='0.0.0.0', port=63789, db=0, retry_on_timeout=True)
+redis_obj = redis.Redis(host='redis', port=6379, db=0, retry_on_timeout=True)
 redis_obj.flushdb()
 redis_obj.flushall()
 
