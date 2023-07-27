@@ -4,7 +4,7 @@ from flask import Flask, Response, request, jsonify, after_this_request
 
 from pathlib import Path
 from service.gitshark import GitShark
-from service.redis_test import RedisShark, redis_obj
+from service.redis_test import RedisShark, redis_obj, RepoStatus
 
 DOMAIN_NAME = os.environ.get('DOMAIN_NAME')
 app = Flask(__name__)
@@ -79,6 +79,7 @@ def streaming_post(path_with_namespace):
     print(path_with_namespace)
     r = RedisShark(path_with_namespace, redis_obj)
     r.begin_read_repo()
+
     @after_this_request
     def after_request():
         r.end_read_repo()

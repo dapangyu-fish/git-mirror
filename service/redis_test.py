@@ -6,13 +6,13 @@ from enum import Enum
 
 time.sleep(2)
 
-redis_obj = redis.Redis(host='redis', port=6379, db=0, retry_on_timeout=True)
+redis_obj = redis.Redis(host='0.0.0.0', port=63789, db=0, retry_on_timeout=True)
 redis_obj.flushdb()
 redis_obj.flushall()
 
 
 class RepoStatus(Enum):
-    initialization = "Initialization"         # 表示该仓库正在初次镜像,不可读
+    initialization = "initialization"         # 表示该仓库正在初次镜像,不可读
     readable = "readable"       # 表示该仓库可读
     unreadable = "unreadable"   # 表示该仓库不可读,但是仍有读取操作未完成,后续读请求需要夯住或者排队
     writing = "writing"         # 表示该仓库正在推送
@@ -36,6 +36,8 @@ class RedisShark(object):
                     current_value = pipe.get(self.counter_key)
                     if current_value is None:
                         current_value = 0
+                    else:
+                        current_value = int(current_value)
                     print(f"Old value: {current_value}")
                     next_value = int(current_value) + value
                     pipe.multi()
@@ -52,7 +54,7 @@ class RedisShark(object):
 
     def begin_read_repo(self):
         pipe = self.r.pipeline()
-        self.update_counter(pipe, 1)
+        self.update_counter(pipe, -1)
 
     def end_read_repo(self):
         pipe = self.r.pipeline()
@@ -67,6 +69,8 @@ class RedisShark(object):
                     old_status = pipe.get(self.status_key)
                     if old_status is None:
                         old_status = RepoStatus.initialization.value
+                    else:
+                        old_status = old_status.decode('utf-8')
                     print(f"Old status: {old_status}")
                     pipe.multi()
                     pipe.set(self.status_key, status)
@@ -80,20 +84,32 @@ class RedisShark(object):
             # 无论事务是否成功，都要取消监视
             pipe.unwatch()
 
+    def get_repo_status(self):
+        pipe = self.r.pipeline()
+        status = None
+        try:
+            while True:
+                try:
+                    pipe.watch(self.status_key)
+                    status = pipe.get(self.status_key)
+                    if status is None:
+                        pipe.multi()
+                        pipe.set(self.status_key, RepoStatus.readable.value)
+                        pipe.execute()
+                        status = RepoStatus.readable.value
+                    else:
+                        status = status.decode('utf-8')
+                    break
+                except redis.WatchError:
+                    # 如果键的值在事务中被其他客户端改变，重新开始事务
+                    continue
+        finally:
+            # 无论事务是否成功，都要取消监视
+            pipe.unwatch()
+        return status
+
 
 if __name__ == '__main__':
     sr = RedisShark("/test_repo_lfs.git", redis_obj)
     sr.begin_read_repo()
     sr.update_repo_status(RepoStatus.initialization.value)
-    sr.update_repo_status(RepoStatus.initialization.value)
-    sr.update_repo_status(RepoStatus.readable.value)
-    sr.begin_read_repo()
-    sr.update_repo_status(RepoStatus.readable.value)
-    sr.begin_read_repo()
-    sr.update_repo_status(RepoStatus.readable.value)
-    sr.begin_read_repo()
-    sr.end_read_repo()
-    sr.end_read_repo()
-    sr.update_repo_status(RepoStatus.updating.value)
-    sr.end_read_repo()
-    sr.end_read_repo()
