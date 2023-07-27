@@ -1,5 +1,5 @@
 # git-mirror
-# github缓存镜像站
+# 超轻量github缓存镜像站
 
 ## 使用说明
 - docker-compose设置仓库本地存储路径，gitshark和nginx(lfs下载需要)都需要，路径相同即可
