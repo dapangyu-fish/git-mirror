@@ -18,10 +18,17 @@ def get_data():
     return jsonify(data)
 
 
+def add_git_extension(string):
+    if not string.endswith('.git'):
+        string += '.git'
+    return string
+
+
 @app.route('/<path:path_with_namespace>/info/refs', methods=['GET'])
 def streaming_get(path_with_namespace):
+    path_with_namespace = add_git_extension(path_with_namespace)
     service = request.args.get('service', default=None, type=None)
-    path = Path("/root/repo", path_with_namespace)
+    path = Path("/root/repo", add_git_extension(path_with_namespace))
     repo = GitShark(path) if path.exists() else GitShark.init(path)
     data = repo.inforefs(service)
     return Response(data, mimetype=f'application/x-{service}-advertisement')
@@ -29,6 +36,7 @@ def streaming_get(path_with_namespace):
 
 @app.route('/<path:path_with_namespace>/<path:service>', methods=['POST'])
 def streaming_post(path_with_namespace, service):
+    path_with_namespace = add_git_extension(path_with_namespace)
     # r = RedisShark("/test_repo_lfs.git", redis_obj)
     #
     # @after_this_request
