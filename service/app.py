@@ -39,7 +39,7 @@ def streaming_get(path_with_namespace):
 
 
 @app.route('/<path:path_with_namespace>/info/lfs/objects/batch', methods=['POST'])
-def lfs_post(path_with_namespace, service):
+def lfs_post(path_with_namespace):
     data = json.loads(request.data)
     operation = data.get('operation')
     objects = data.get('objects')
