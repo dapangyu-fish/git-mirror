@@ -51,7 +51,6 @@ RUN ln -s $_CONDA_ROOT/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 RUN pip install -U pip
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
-RUN pwd && ls && ls && ls && ls && ls && pwd && ls && ls && pwd
 COPY ./service /root/service
 
 
