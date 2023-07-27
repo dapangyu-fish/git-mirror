@@ -22,7 +22,9 @@ class GitShark(object):
 
     @staticmethod
     def init(path: str) -> GitShark:
-        args = ['git', 'init', '--bare', path]
+        args = ['mkdir', '-p', path.split("/")[:-1]]
+        run(args, check=True)
+        args = ['git', 'clone', '--bare', "https://github.com/{0}".format(path[1:-1])]
         run(args, check=True)
         return GitShark(path)
 
