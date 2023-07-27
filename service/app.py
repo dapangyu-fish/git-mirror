@@ -6,15 +6,14 @@ from pathlib import Path
 from service.gitshark import GitShark
 from service.redis_test import RedisShark, redis_obj
 
-
 DOMAIN_NAME = os.environ.get('DOMAIN_NAME')
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def get_data():
+@app.route('/<path:path_with_namespace>/path', methods=['GET'])
+def get_data(path_with_namespace):
     data = {
-        'code': '0'
+        'path': path_with_namespace
     }
     return jsonify(data)
 
@@ -27,6 +26,9 @@ def add_git_extension(string):
 
 @app.route('/<path:path_with_namespace>/info/refs', methods=['GET'])
 def streaming_get(path_with_namespace):
+    service = request.args.get('service')
+    print(service)
+    print(path_with_namespace)
     path_with_namespace = add_git_extension(path_with_namespace)
     # print(path_with_namespace)
     service = request.args.get('service', default=None, type=None)
@@ -72,7 +74,7 @@ def lfs_post(path_with_namespace, service):
 
 
 @app.route('/<path:path_with_namespace>/git-upload-pack', methods=['POST'])
-def streaming_post(path_with_namespace, service):
+def streaming_post(path_with_namespace):
     path_with_namespace = add_git_extension(path_with_namespace)
     print(path_with_namespace)
     # r = RedisShark("/test_repo_lfs.git", redis_obj)
@@ -84,8 +86,15 @@ def streaming_post(path_with_namespace, service):
     path = Path("/Users/dapangyu/github-mirror/gitserver/repo", path_with_namespace)
     repo = GitShark(path) if path.exists() else GitShark.init(path)
     data = request.data
-    data = repo.service(service, data)
-    return Response(data, mimetype=f'application/x-{service}-result')
+    data = repo.service("git-upload-pack", data)
+    return Response(data, mimetype=f'application/x-"git-upload-pack"-result')
+
+
+@app.errorhandler(404)
+def handle_not_found_error(e):
+    url = request.url
+    method = request.method
+    return f'Requested URL not found: {method} {url}', 404
 
 
 if __name__ == '__main__':
