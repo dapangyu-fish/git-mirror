@@ -37,7 +37,7 @@ def streaming_get(path_with_namespace):
 
 
 @app.route('/<path:path_with_namespace>/info/lfs/objects/batch', methods=['POST'])
-def streaming_post(path_with_namespace, service):
+def lfs_post(path_with_namespace, service):
     data = json.loads(request.data)
     operation = data.get('operation')
     objects = data.get('objects')
@@ -69,6 +69,7 @@ def streaming_post(path_with_namespace, service):
         'objects': objects_response
     })
     return lfs_response
+
 
 @app.route('/<path:path_with_namespace>/git-upload-pack', methods=['POST'])
 def streaming_post(path_with_namespace, service):
