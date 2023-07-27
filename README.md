@@ -1,6 +1,5 @@
 # git-mirror
-git miror with cache
-# github缓存
+# github缓存镜像站
 
 ## 使用说明
 - docker-compose设置仓库本地存储路径，gitshark和nginx(lfs下载需要)都需要，路径相同即可
@@ -34,3 +33,6 @@ git miror with cache
 ## 已知问题
 - 目前仓库直接读取到内存，可能会比较耗内存，尚未大量测试
 - python性能问题，流式响应flask比fastapi快20倍以上，原因未细究，flask依旧无法跑满带宽
+
+
+## 学习交流～～～
