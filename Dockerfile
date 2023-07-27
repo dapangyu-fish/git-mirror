@@ -55,9 +55,6 @@ RUN pwd && ls && ls && ls && ls && ls && pwd && ls && ls && pwd
 COPY ./service /root/service
 
 
-EXPOSE 8000
-CMD python -m gunicorn gitserver:app -w 16 --port 8000
-
 #=======================
 # Set ssh for root login
 #=======================
