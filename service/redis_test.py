@@ -6,7 +6,7 @@ from enum import Enum
 
 time.sleep(2)
 
-redis_obj = redis.Redis(host='redis', port=6379, db=0, retry_on_timeout=True)
+redis_obj = redis.Redis(host='127.0.0.1', port=6379, db=0, retry_on_timeout=True)
 redis_obj.flushdb()
 redis_obj.flushall()
 
@@ -58,7 +58,7 @@ class RedisShark(object):
         pipe = self.r.pipeline()
         self.update_counter(pipe, -1)
 
-    def update_repo_status(self, status: RepoStatus):
+    def update_repo_status(self, status: str):
         pipe = self.r.pipeline()
         try:
             while True:
@@ -69,9 +69,9 @@ class RedisShark(object):
                         old_status = RepoStatus.initialization.value
                     print(f"Old status: {old_status}")
                     pipe.multi()
-                    pipe.set(self.status_key, status.value)
+                    pipe.set(self.status_key, status)
                     pipe.execute()
-                    print(f"New status: {status.value}")
+                    print(f"New status: {status}")
                     break
                 except redis.WatchError:
                     # 如果键的值在事务中被其他客户端改变，重新开始事务
@@ -84,16 +84,16 @@ class RedisShark(object):
 if __name__ == '__main__':
     sr = RedisShark("/test_repo_lfs.git", redis_obj)
     sr.start_read_repo()
-    sr.update_repo_status(RepoStatus.initialization)
-    sr.update_repo_status(RepoStatus.initialization)
-    sr.update_repo_status(RepoStatus.readable)
+    sr.update_repo_status(RepoStatus.initialization.value)
+    sr.update_repo_status(RepoStatus.initialization.value)
+    sr.update_repo_status(RepoStatus.readable.value)
     sr.start_read_repo()
-    sr.update_repo_status(RepoStatus.readable)
+    sr.update_repo_status(RepoStatus.readable.value)
     sr.start_read_repo()
-    sr.update_repo_status(RepoStatus.readable)
+    sr.update_repo_status(RepoStatus.readable.value)
     sr.start_read_repo()
     sr.end_read_repo()
     sr.end_read_repo()
-    sr.update_repo_status(RepoStatus.updating)
+    sr.update_repo_status(RepoStatus.updating.value)
     sr.end_read_repo()
     sr.end_read_repo()

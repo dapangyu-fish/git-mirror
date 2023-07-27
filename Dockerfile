@@ -51,7 +51,7 @@ RUN ln -s $_CONDA_ROOT/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 RUN pip install -U pip
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
-RUN pwd && ls && ls && ls && ls && ls
+RUN pwd && ls && ls && ls && ls && ls && pwd && pwd && ls && pwd
 COPY ./service /root/service
 
 
@@ -64,7 +64,7 @@ CMD python -m gunicorn gitserver:app -w 16 --port 8000
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
-                            echo "python -m gunicorn service:app --workers 10 --backlog 50 --bind 0.0.0.0:8000" >> /entrypoint.sh
+                            echo "python -m gunicorn service:app --workers 10 --backlog 50 --bind 0.0.0.0:80" >> /entrypoint.sh
 
 EXPOSE 8000
 
