@@ -7,7 +7,7 @@ git miror with cache
 - 设置环境变量DOMAIN_NAME="192.168.111.225:3000" # 必须使用外部可访问的地址域名或ip:port, 这个是lfs对象的下载地址 8001是git的
 - docker-compose up -d
 - git clone http://192.168.111.225:8001/github.com/xxxx/xxxx.git
-- 可自动缓存github项目
+- 可自动缓存github项目,首次拉取仓库去取决于镜像服务->github网络速度及内网速度。
 
 ## 进度
 
@@ -30,3 +30,7 @@ git miror with cache
 - [x] docker支持
 - [x] arm64/aarch64平台支持
 - [ ] 仓库分片支持
+
+## 已知问题
+- 目前仓库直接读取到内存，可能会比较耗内存，尚未大量测试
+- python性能问题，流式响应flask比fastapi快20倍以上，原因未细究，flask依旧无法跑满带宽
