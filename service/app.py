@@ -32,7 +32,7 @@ def streaming_get(path_with_namespace):
     path_with_namespace = add_git_extension(path_with_namespace)
     # print(path_with_namespace)
     service = request.args.get('service', default=None, type=None)
-    path = Path("/Users/dapangyu/github-mirror/gitserver/repo", add_git_extension(path_with_namespace))
+    path = Path("/root/repo", add_git_extension(path_with_namespace))
     repo = GitShark(path) if path.exists() else GitShark.init(path)
     data = repo.inforefs(service)
     return Response(data, mimetype=f'application/x-{service}-advertisement')
@@ -83,7 +83,7 @@ def streaming_post(path_with_namespace):
     # def after_request():
     #     r.end_read_repo()
 
-    path = Path("/Users/dapangyu/github-mirror/gitserver/repo", path_with_namespace)
+    path = Path("/root/repo", path_with_namespace)
     repo = GitShark(path) if path.exists() else GitShark.init(path)
     data = request.data
     data = repo.service("git-upload-pack", data)
