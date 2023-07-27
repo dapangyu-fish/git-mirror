@@ -50,7 +50,7 @@ class RedisShark(object):
             # 无论事务是否成功，都要取消监视
             pipe.unwatch()
 
-    def start_read_repo(self):
+    def begin_read_repo(self):
         pipe = self.r.pipeline()
         self.update_counter(pipe, 1)
 
@@ -83,15 +83,15 @@ class RedisShark(object):
 
 if __name__ == '__main__':
     sr = RedisShark("/test_repo_lfs.git", redis_obj)
-    sr.start_read_repo()
+    sr.begin_read_repo()
     sr.update_repo_status(RepoStatus.initialization.value)
     sr.update_repo_status(RepoStatus.initialization.value)
     sr.update_repo_status(RepoStatus.readable.value)
-    sr.start_read_repo()
+    sr.begin_read_repo()
     sr.update_repo_status(RepoStatus.readable.value)
-    sr.start_read_repo()
+    sr.begin_read_repo()
     sr.update_repo_status(RepoStatus.readable.value)
-    sr.start_read_repo()
+    sr.begin_read_repo()
     sr.end_read_repo()
     sr.end_read_repo()
     sr.update_repo_status(RepoStatus.updating.value)
