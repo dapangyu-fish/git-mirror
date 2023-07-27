@@ -57,7 +57,7 @@ def streaming_post(path_with_namespace, service):
             oid = obj.get('oid')
             size = obj.get('size')
             # 获取文件的URL
-            url = get_file_url(oid, operation)
+            url = get_file_url(oid)
             # 添加到响应列表中
             objects_response.append({
                 'oid': oid,
