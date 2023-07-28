@@ -81,8 +81,9 @@ def streaming_post(path_with_namespace):
     r.begin_read_repo()
 
     @after_this_request
-    def after_request():
+    def after_request(response):
         r.end_read_repo()
+        return response
 
     path = Path("/root/repo", path_with_namespace)
     repo = GitShark(path) if path.exists() else GitShark.init(path)

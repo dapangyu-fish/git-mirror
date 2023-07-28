@@ -19,8 +19,8 @@ services:
     ports:
       - "3000:80"
     environment:
-      - DOMAIN_NAME="192.168.111.225:3000" # 必须使用外部可访问的地址域名或ip:port
+      - DOMAIN_NAME="10.23.172.185:3000" # 必须使用外部可访问的地址域名或ip:port
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
+#    ports:
+#      - "6379:6379"

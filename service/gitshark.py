@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import os
 import stat
 from typing import IO
 from subprocess import run, Popen, PIPE
@@ -22,9 +23,10 @@ class GitShark(object):
 
     @staticmethod
     def init(path: str) -> GitShark:
-        args = ['mkdir', '-p', path.split("/")[:-1]]
+        directory, filename = os.path.split(path)
+        args = ['mkdir', '-p', directory]
         run(args, check=True)
-        args = ['git', 'clone', '--bare', "https://github.com/{0}".format(path[1:-1]), path.split("/")]
+        args = ['git', 'clone', '--bare', "https://github.com/{0}/{1}".format(directory.replace("/root/repo/github.com/", ""), filename), path]
         run(args, check=True)
         return GitShark(path)
 
