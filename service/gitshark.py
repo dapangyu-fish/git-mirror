@@ -63,3 +63,12 @@ class GitShark(object):
             proc.wait()
 
         return io.BytesIO(data)
+
+    def create_a_copy(self):
+        pass
+
+    def sync_copy_from_upstream(self):
+        pass
+
+    def change_copy(self):
+        pass

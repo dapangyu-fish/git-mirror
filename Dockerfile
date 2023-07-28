@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # install apt
 #=======================
 RUN apt update && apt upgrade -y \
-               && apt install -y wget curl gcc g++ make tini git git-lfs \
+               && apt install -y wget curl gcc g++ make tini git git-lfs rsync \
                && apt autoclean -y \
                && apt autoremove -y \
                && rm -rf /var/lib/apt/lists/*
@@ -61,7 +61,7 @@ RUN chmod +x /usr/bin/sync_repo
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
-                            echo "python -m gunicorn service:app --workers \$WORKERS --backlog \$BACKLOG --timeout 3600 --bind 0.0.0.0:80" >> /entrypoint.sh
+                            echo "python -m gunicorn service:app --workers \$WORKERS --backlog \$BACKLOG --timeout \$TIMEOUT --bind 0.0.0.0:80" >> /entrypoint.sh
 
 EXPOSE 8000
 

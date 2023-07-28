@@ -13,6 +13,7 @@ services:
       - DOMAIN_NAME=0.0.0.0:3000
       - WORKERS=10
       - BACKLOG=50
+      - TIMEOUT=3600
   nginx:
     image: nginx:latest
     volumes:
