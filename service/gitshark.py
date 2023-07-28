@@ -26,7 +26,8 @@ class GitShark(object):
         directory, filename = os.path.split(path)
         args = ['mkdir', '-p', directory]
         run(args, check=True)
-        args = ['git', 'clone', '--bare', "https://github.com/{0}/{1}".format(directory.replace("/root/repo/github.com/", ""), filename), path]
+        args = ['git', 'clone', '--bare',
+                "https://github.com/{0}/{1}".format(directory.replace("/root/repo/github.com/", ""), filename), path]
         run(args, check=True)
         return GitShark(path)
 
