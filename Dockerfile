@@ -61,7 +61,7 @@ RUN chmod +x /usr/bin/sync_repo
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
-                            echo "python -m gunicorn service:app --workers 10 --backlog 50 --timeout 3600 --bind 0.0.0.0:80" >> /entrypoint.sh
+                            echo "python -m gunicorn service:app --workers \$WORKERS --backlog \$BACKLOG --timeout 3600 --bind 0.0.0.0:80" >> /entrypoint.sh
 
 EXPOSE 8000
 
