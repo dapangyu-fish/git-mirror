@@ -11,6 +11,8 @@ services:
       - "8001:80"
     environment:
       - DOMAIN_NAME=0.0.0.0:3000
+      - WORKERS=10
+      - BACKLOG=50
   nginx:
     image: nginx:latest
     volumes:
