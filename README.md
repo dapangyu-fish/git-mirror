@@ -40,7 +40,7 @@
 
 ## Thanks
 
-本项目主要参考[gitserver][1]，并对该项目表示感谢，除此之外还利用类chatgpt的工具
+本项目主要参考[gitserver][1]，并对该项目表示感谢，除此之外还利用了类chatgpt的工具
 
 - [gitserver][1]
 
