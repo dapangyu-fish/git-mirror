@@ -29,6 +29,8 @@ class GitShark(object):
         args = ['git', 'clone', '--bare',
                 "https://github.com/{0}/{1}".format(directory.replace("/root/repo/github.com/", ""), filename), path]
         run(args, check=True)
+        args = ['cd', path, '&&', 'git', 'lfs', 'fetch', '--all']
+        run(args, check=True)
         return GitShark(path)
 
     def add_hook(self, name: str, hook: str) -> str:
