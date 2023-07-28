@@ -37,3 +37,11 @@
 
 
 ## 虽然没什么大用但是 学习学习git协议～～
+
+## Thanks
+
+本项目主要参考[gitserver][1]，并对该项目表示感谢，除此之外还利用类chatgpt的工具
+
+- [gitserver][1]
+
+[1]: https://github.com/meyer1994/gitserver
