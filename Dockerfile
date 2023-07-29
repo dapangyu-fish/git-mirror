@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # install apt
 #=======================
 RUN apt update && apt upgrade -y \
-               && apt install -y wget curl gcc g++ make tini git git-lfs rsync \
+               && apt install -y wget curl gcc g++ make tini git git-lfs rsync cron \
                && apt autoclean -y \
                && apt autoremove -y \
                && rm -rf /var/lib/apt/lists/*
