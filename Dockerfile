@@ -29,8 +29,10 @@ RUN pip install -r /requirements.txt
 COPY ./service /root/service
 ADD ./service/sync_repo.sh /usr/bin/sync_repo
 RUN chmod +x /usr/bin/sync_repo
-RUN mkdir -p /var/log/supervisor/
+RUN mkdir -p /etc/supervisor/conf.d && ls
+RUN mkdir -p /var/log/supervisor/conf.d
 COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
+COPY supervisor/conf.d/git-mirror.conf /etc/supervisor/conf.d/git-mirror.conf
 
 
 #=======================
@@ -39,7 +41,7 @@ COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
-                            echo "supervisord -c /etc/supervisor/supervisord.conf" >> /entrypoint.sh  && \
+                            echo "supervisord --nodaemon -c /etc/supervisor/supervisord.conf" >> /entrypoint.sh  && \
                             echo "if [ \$# -eq 0 ]; then" >> /entrypoint.sh && \
                             echo "  echo \"No command, running /bin/bash as default.\"" >> /entrypoint.sh && \
                             echo "  /bin/bash" >> /entrypoint.sh && \
