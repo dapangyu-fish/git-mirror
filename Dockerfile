@@ -39,7 +39,14 @@ COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
-                            echo "python -m gunicorn service:app --workers \$WORKERS --backlog \$BACKLOG --timeout 3600 --bind 0.0.0.0:80" >> /entrypoint.sh
+                            echo "supervisord -c /etc/supervisor/supervisord.conf" >> /entrypoint.sh  && \
+                            echo "if [ \$# -eq 0 ]; then" >> /entrypoint.sh && \
+                            echo "  echo \"No command, running /bin/bash as default.\"" >> /entrypoint.sh && \
+                            echo "  /bin/bash" >> /entrypoint.sh && \
+                            echo "else" >> /entrypoint.sh && \
+                            echo "  \"\$@\"" >> /entrypoint.sh && \
+                            echo "fi" >> /entrypoint.sh
+
 
 EXPOSE 8000
 
