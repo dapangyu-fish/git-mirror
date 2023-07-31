@@ -5,7 +5,7 @@
 # workspace：/root
 #=======================
 
-FROM ubuntu:22.04
+FROM python:3.11.4-slim
 USER root
 WORKDIR /root
 ENV DEBIAN_FRONTEND=noninteractive
