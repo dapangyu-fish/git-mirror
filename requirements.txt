@@ -2,3 +2,5 @@ gunicorn
 flask
 redis
 supervisor
+kombu
+celery
