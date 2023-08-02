@@ -4,3 +4,4 @@ redis
 supervisor
 kombu
 celery
+msgpack-python

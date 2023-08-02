@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # install apt
 #=======================
 RUN apt update && apt upgrade -y \
-               && apt install -y wget curl tini git git-lfs \
+               && apt install -y wget curl tini git git-lfs rsync \
                && apt autoclean -y \
                && apt autoremove -y \
                && rm -rf /var/lib/apt/lists/*
@@ -24,17 +24,18 @@ RUN apt update && apt upgrade -y \
 # Install pip requirements
 #=======================
 RUN pip install -U pip
+RUN pwd && pwd && pwd
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
-RUN pwd
 COPY ./service /root/service
 COPY ./tasks /root/tasks
 ADD ./service/sync_repo.sh /usr/bin/sync_repo
 RUN chmod +x /usr/bin/sync_repo
-RUN mkdir -p /etc/supervisor/conf.d && ls
+RUN mkdir -p /etc/supervisor/conf.d
 RUN mkdir -p /var/log/supervisor/conf.d
 COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisor/conf.d/git-mirror.conf /etc/supervisor/conf.d/git-mirror.conf
+COPY supervisor/conf.d/tasks.conf /etc/supervisor/conf.d/tasks.conf
 
 
 #=======================
