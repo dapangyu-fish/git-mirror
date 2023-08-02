@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from subprocess import run, Popen, PIPE
-from task.celery import app
+from tasks.celery import app
 
 DUPLICATE_BASE = '/root/repo/tmp/duplicate'
 
