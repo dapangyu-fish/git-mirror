@@ -92,6 +92,11 @@ def streaming_post(path_with_namespace):
     return Response(data, mimetype=f'application/x-"git-upload-pack"-result')
 
 
+@app.route('/<path:path_with_namespace>/update_repo', methods=['POST'])
+def update_repo(path_with_namespace):
+    path_with_namespace = add_git_extension(path_with_namespace)
+    pass
+
 @app.errorhandler(404)
 def handle_not_found_error(e):
     url = request.url
