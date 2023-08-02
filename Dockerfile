@@ -51,7 +51,7 @@ RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "else" >> /entrypoint.sh && \
                             echo "  \"\$@\"" >> /entrypoint.sh && \
                             echo "fi" >> /entrypoint.sh
-
+                            
 
 EXPOSE 8000
 
