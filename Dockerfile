@@ -26,6 +26,7 @@ RUN apt update && apt upgrade -y \
 RUN pip install -U pip
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
+RUN pwd
 COPY ./service /root/service
 COPY ./tasks /root/tasks
 ADD ./service/sync_repo.sh /usr/bin/sync_repo
