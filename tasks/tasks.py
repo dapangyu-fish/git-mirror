@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import os
 from subprocess import run, Popen, PIPE
 from tasks.celery import app
 
@@ -9,11 +10,11 @@ DUPLICATE_BASE = '/root/repo/tmp/duplicate'
 @app.task
 def create_a_duplicate(path: str):
     repo_path = '/root/repo/github.com/{0}'.format(path)
-    duplicate_path = '{0}/github.com/{1}'.format(DUPLICATE_BASE, path)
-    args = ['mkdir', '-p', duplicate_path]
+    duplicate_father_path = '{0}/github.com/{1}'.format(DUPLICATE_BASE, os.path.dirname(path))
+    args = ['mkdir', '-p', duplicate_father_path]
     result = run(args, check=True, capture_output=True)
     print(result)
-    args = ['rsync', '-aP', repo_path, duplicate_path]
+    args = ['rsync', '-aP', repo_path, duplicate_father_path]
     result = run(args, check=True, capture_output=True)
     data = {
         'stdout': result.stdout,
@@ -26,7 +27,7 @@ def create_a_duplicate(path: str):
 
 @app.task
 def delete_a_duplicate(path):
-    duplicate_path = '{0}/{1}'.format(DUPLICATE_BASE, path)
+    duplicate_path = '{0}/github.com/{1}'.format(DUPLICATE_BASE, path)
     args = ['rm', '-rf', duplicate_path]
     result = run(args, check=True, capture_output=True)
     data = {
