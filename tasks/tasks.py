@@ -88,7 +88,7 @@ def update_repo(path, timeout=60):
     r.update_repo_status(str(RepoStatus.readable.value))
     data = {
         'code': 0,
-        'status': "update failes"
+        'status': "update success"
     }
     print(data)
     return data
