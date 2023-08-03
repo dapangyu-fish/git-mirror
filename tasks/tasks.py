@@ -80,7 +80,7 @@ def update_repo(path, timeout=60):
         if time.time() - start_time > timeout:
             data = {
                 'code': 1,
-                'status': "update failed"
+                'status': "update failure"
             }
             return data
     r.update_repo_status(str(RepoStatus.updating.value))
