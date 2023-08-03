@@ -52,30 +52,9 @@ class RedisShark(object):
             # 无论事务是否成功，都要取消监视
             pipe.unwatch()
 
-    def get_counter(self):
-        pipe = self.r.pipeline()
-        counter = 0
-        try:
-            while True:
-                try:
-                    pipe.watch(self.counter_key)
-                    current_value = pipe.get(self.counter_key)
-                    if current_value is None:
-                        counter = 0
-                    else:
-                        counter = int(current_value)
-                    break
-                except redis.WatchError:
-                    # 如果键的值在事务中被其他客户端改变，重新开始事务
-                    continue
-        finally:
-            # 无论事务是否成功，都要取消监视
-            pipe.unwatch()
-        return counter
-
     def begin_read_repo(self):
         pipe = self.r.pipeline()
-        self.update_counter(pipe, 1)
+        self.update_counter(pipe, -1)
 
     def end_read_repo(self):
         pipe = self.r.pipeline()

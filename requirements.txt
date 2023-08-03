@@ -2,6 +2,3 @@ gunicorn
 flask
 redis
 supervisor
-kombu
-celery
-msgpack-python

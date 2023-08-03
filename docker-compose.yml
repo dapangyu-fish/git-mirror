@@ -13,7 +13,6 @@ services:
       - DOMAIN_NAME=0.0.0.0:3000
       - WORKERS=10
       - BACKLOG=50
-      - TIMEOUT=3600
   nginx:
     image: nginx:latest
     volumes:
@@ -22,7 +21,7 @@ services:
     ports:
       - "3000:80"
     environment:
-      - DOMAIN_NAME="10.23.188.6:3000" # 必须使用外部可访问的地址域名或ip:port
+      - DOMAIN_NAME="10.23.172.185:3000" # 必须使用外部可访问的地址域名或ip:port
   redis:
     image: redis:latest
 #    ports:
