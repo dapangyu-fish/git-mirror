@@ -73,7 +73,7 @@ def update_repo(path):
     path_with_namespace = path
     r = RedisShark(path_with_namespace, redis_obj)
     r.update_repo_status(str(RepoStatus.unreadable.value))
-    time.sleep(10)
+    time.sleep(20)
     while r.get_counter() != 0:
         time.sleep(1)
     r.update_repo_status(str(RepoStatus.updating.value))
