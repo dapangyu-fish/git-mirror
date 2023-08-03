@@ -69,17 +69,25 @@ def updating_duplicated_repo(path):
 
 
 @app.task
-def update_repo(path):
+def update_repo(path, timeout=60):
     path_with_namespace = path
     r = RedisShark(path_with_namespace, redis_obj)
     r.update_repo_status(str(RepoStatus.unreadable.value))
-    time.sleep(20)
+    time.sleep(2)  # 延时可以预防拉取仓库时(streaming_post)判断为可读但计数器尚未+1的情况
+    start_time = time.time()
     while r.get_counter() != 0:
         time.sleep(1)
+        if time.time() - start_time > timeout:
+            data = {
+                'code': 1,
+                'status': "update failure"
+            }
+            return data
     r.update_repo_status(str(RepoStatus.updating.value))
     time.sleep(60)  # 模拟更新动作
     r.update_repo_status(str(RepoStatus.readable.value))
     data = {
+        'code': 0,
         'status': "update success"
     }
     print(data)
