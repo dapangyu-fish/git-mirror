@@ -73,7 +73,7 @@ def update_repo(path, timeout=60):
     path_with_namespace = path
     r = RedisShark(path_with_namespace, redis_obj)
     r.update_repo_status(str(RepoStatus.unreadable.value))
-    time.sleep(20)
+    time.sleep(2)  # 延时可以预防拉取仓库时(streaming_post)判断为可读但计数器尚未+1的情况
     start_time = time.time()
     while r.get_counter() != 0:
         time.sleep(1)
