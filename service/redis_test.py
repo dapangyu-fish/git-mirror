@@ -75,7 +75,7 @@ class RedisShark(object):
 
     def begin_read_repo(self):
         pipe = self.r.pipeline()
-        self.update_counter(pipe, -1)
+        self.update_counter(pipe, 1)
 
     def end_read_repo(self):
         pipe = self.r.pipeline()

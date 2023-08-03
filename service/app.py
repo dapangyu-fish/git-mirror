@@ -81,7 +81,7 @@ def streaming_post(path_with_namespace):
     print(path_with_namespace)
     r = RedisShark(path_with_namespace, redis_obj)
     status = r.get_repo_status()
-    while status is not RepoStatus.readable.value:
+    while status != str(RepoStatus.readable.value):
         time.sleep(1)
         status = r.get_repo_status()
         print("===status:{0}\n".format(status))
