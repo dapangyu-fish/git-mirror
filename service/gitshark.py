@@ -63,3 +63,15 @@ class GitShark(object):
             proc.wait()
 
         return io.BytesIO(data)
+
+    def create_a_copy(self, path: str):
+        directory, filename = os.path.split(self.path)
+        args = ['mkdir', '-p', directory.replace("/root/repo/github.com/", "/root/repo/tmp/github.com/")]
+        run(args, check=True)
+        pass
+
+    def sync_copy_from_upstream(self):
+        pass
+
+    def change_copy(self):
+        pass
