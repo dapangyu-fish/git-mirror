@@ -1,5 +1,7 @@
 import json
 import os
+import time
+
 from flask import Flask, Response, request, jsonify, after_this_request
 
 from pathlib import Path
@@ -78,6 +80,13 @@ def streaming_post(path_with_namespace):
     path_with_namespace = add_git_extension(path_with_namespace)
     print(path_with_namespace)
     r = RedisShark(path_with_namespace, redis_obj)
+    status = r.get_repo_status()
+    while status != str(RepoStatus.readable.value):
+        time.sleep(1)
+        status = r.get_repo_status()
+        print("===status:{0}\n".format(status))
+        print("===path_with_namespace:{0}\n".format(path_with_namespace))
+
     r.begin_read_repo()
 
     @after_this_request

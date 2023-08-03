@@ -24,7 +24,7 @@ RUN apt update && apt upgrade -y \
 # Install pip requirements
 #=======================
 RUN pip install -U pip
-RUN pwd && pwd && pwd
+RUN pwd && pwd && pwd && pwd && pwd
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 COPY ./service /root/service

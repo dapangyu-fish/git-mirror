@@ -1,8 +1,10 @@
 from __future__ import absolute_import
 
 import os
+import time
 from subprocess import run, Popen, PIPE
 from tasks.celery import app
+from service.redis_test import RedisShark, redis_obj, RepoStatus
 
 DUPLICATE_BASE = '/root/repo/tmp/duplicate'
 
@@ -61,6 +63,24 @@ def updating_duplicated_repo(path):
         'stdout': result.stdout,
         'stderr': result.stderr,
         'returncode': result.returncode
+    }
+    print(data)
+    return data
+
+
+@app.task
+def update_repo(path):
+    path_with_namespace = path
+    r = RedisShark(path_with_namespace, redis_obj)
+    r.update_repo_status(str(RepoStatus.unreadable.value))
+    time.sleep(20)
+    while r.get_counter() != 0:
+        time.sleep(1)
+    r.update_repo_status(str(RepoStatus.updating.value))
+    time.sleep(60)  # 模拟更新动作
+    r.update_repo_status(str(RepoStatus.readable.value))
+    data = {
+        'status': "update success"
     }
     print(data)
     return data
