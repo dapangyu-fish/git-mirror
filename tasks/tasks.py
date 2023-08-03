@@ -54,7 +54,7 @@ def delete_all_duplicate():
 
 @app.task
 def updating_duplicated_repo(path):
-    duplicate_path = '{0}/{1}'.format(DUPLICATE_BASE, path)
+    duplicate_path = '{0}/github.com/{1}'.format(DUPLICATE_BASE, path)
     args = ['/usr/bin/sync_repo']
     result = run(args, check=True, cwd=duplicate_path)
     data = {
@@ -64,7 +64,3 @@ def updating_duplicated_repo(path):
     }
     print(data)
     return data
-
-@app.task
-def add(x, y):
-    return x + y
