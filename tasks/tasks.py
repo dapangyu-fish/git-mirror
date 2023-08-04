@@ -87,7 +87,7 @@ def update_repo(path, timeout=60):
     repo_father_path = '/root/repo/{0}'.format(os.path.dirname(path))
     repo_path = '/root/repo/{0}'.format(path)
     duplicate_path = '{0}/{1}'.format(DUPLICATE_BASE, path)
-    args = ['rm', '-rf ', repo_path]
+    args = ['rm', '-rf', repo_path]
     result1 = run(args, check=True, capture_output=True)
     args = ['mv', duplicate_path, repo_father_path]
     result2 = run(args, check=True, capture_output=True)

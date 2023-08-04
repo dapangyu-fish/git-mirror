@@ -1,8 +1,11 @@
+import sys
+
+sys.path.append('/root/')
 from service.redis_test import RedisShark, redis_obj, RepoStatus
-from tasks.tasks import create_a_duplicate,updating_duplicated_repo,update_repo
+from tasks.tasks import create_a_duplicate, updating_duplicated_repo, update_repo
 
 
-def update_repo(repo_path):
+def update_1_repo(repo_path):
     step1 = create_a_duplicate.delay(test_repo)
     r = step1.get()
     print("step1 result:{0}".format(r))
@@ -18,4 +21,4 @@ def update_repo(repo_path):
 
 if __name__ == '__main__':
     test_repo = "github.com/moby/moby.git"
-    create_a_duplicate.delay(test_repo)
+    update_1_repo(test_repo)
