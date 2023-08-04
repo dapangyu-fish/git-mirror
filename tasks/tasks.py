@@ -84,10 +84,22 @@ def update_repo(path, timeout=60):
             }
             return data
     r.update_repo_status(str(RepoStatus.updating.value))
-    time.sleep(60)  # 模拟更新动作
+    repo_father_path = '/root/repo/{0}'.format(os.path.dirname(path))
+    repo_path = '/root/repo/{0}'.format(path)
+    duplicate_path = '{0}/{1}'.format(DUPLICATE_BASE, path)
+    args = ['rm', '-rf ', repo_path]
+    result1 = run(args, check=True, capture_output=True)
+    args = ['mv', duplicate_path, repo_father_path]
+    result2 = run(args, check=True, capture_output=True)
     r.update_repo_status(str(RepoStatus.readable.value))
     data = {
         'code': 0,
+        'stdout1': result1.stdout,
+        'stderr1': result1.stderr,
+        'stdout2': result2.stdout,
+        'stderr2': result2.stderr,
+        'returncode1': result1.returncode,
+        'returncode2': result2.returncode,
         'status': "update success"
     }
     print(data)
