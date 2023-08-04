@@ -1,6 +1,6 @@
 import sys
-
-sys.path.append('/root/')
+sys.path.append('/root/service')
+sys.path.append('/root/tasks')
 from service.redis_test import RedisShark, redis_obj, RepoStatus
 from tasks.tasks import create_a_duplicate, updating_duplicated_repo, update_repo
 
@@ -20,5 +20,11 @@ def update_1_repo(repo_path):
 
 
 if __name__ == '__main__':
+    repo_list = []
+    keys = redis_obj.keys('*')
+    for key in keys:
+        key_name = key.decode('utf-8')
+        if ".git_status" in key_name:
+            repo_list.append(key_name.replace(".git_status", ".git"))
     test_repo = "github.com/moby/moby.git"
     update_1_repo(test_repo)
