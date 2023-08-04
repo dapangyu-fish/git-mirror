@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append('/root/service')
 sys.path.append('/root/tasks')
 from service.redis_test import RedisShark, redis_obj, RepoStatus
