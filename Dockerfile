@@ -24,18 +24,15 @@ RUN apt update && apt upgrade -y \
 # Install pip requirements
 #=======================
 RUN pip install -U pip
-RUN pwd && pwd && pwd && pwd && pwd
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 COPY ./service /root/service
-COPY ./tasks /root/tasks
 ADD ./service/sync_repo.sh /usr/bin/sync_repo
 RUN chmod +x /usr/bin/sync_repo
-RUN mkdir -p /etc/supervisor/conf.d
+RUN mkdir -p /etc/supervisor/conf.d && ls
 RUN mkdir -p /var/log/supervisor/conf.d
 COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisor/conf.d/git-mirror.conf /etc/supervisor/conf.d/git-mirror.conf
-COPY supervisor/conf.d/tasks.conf /etc/supervisor/conf.d/tasks.conf
 
 
 #=======================
@@ -51,7 +48,7 @@ RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "else" >> /entrypoint.sh && \
                             echo "  \"\$@\"" >> /entrypoint.sh && \
                             echo "fi" >> /entrypoint.sh
-                            
+
 
 EXPOSE 8000
 
