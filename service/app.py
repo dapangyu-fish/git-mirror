@@ -114,7 +114,7 @@ def handle_not_found_error(e):
 
 
 @app.route('/gc/objects', methods=['GET'])
-def gc_objects_get(path_with_namespace):
+def gc_objects_get():
     objects = gc.get_objects()
     return jsonify(objects)
 
