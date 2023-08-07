@@ -1,7 +1,7 @@
 import json
 import os
 import time
-
+import gc
 from flask import Flask, Response, request, jsonify, after_this_request
 
 from pathlib import Path
@@ -111,6 +111,12 @@ def handle_not_found_error(e):
     url = request.url
     method = request.method
     return f'Requested URL not found: {method} {url}', 404
+
+
+@app.route('/gc/objects', methods=['GET'])
+def gc_objects_get(path_with_namespace):
+    objects = gc.get_objects()
+    return jsonify(objects)
 
 
 if __name__ == '__main__':
