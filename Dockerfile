@@ -42,7 +42,7 @@ COPY supervisor/conf.d/cron.conf /etc/supervisor/conf.d/cron.conf
 #=======================
 # Set ssh for root login
 #=======================
-RUN echo "*/3 * * * * /usr/local/bin/python3 -u /root/update.py >> /root/logs/updater.log 2>> /root/logs/updater.log" | crontab -
+RUN echo "*/30 * * * * /usr/local/bin/python3 -u /root/update.py >> /root/logs/updater.log 2>> /root/logs/updater.log" | crontab -
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
