@@ -3,15 +3,15 @@ from tasks.tasks import create_a_duplicate, updating_duplicated_repo, update_rep
 
 
 def update_1_repo(repo_path):
-    step1 = create_a_duplicate.delay(test_repo)
+    step1 = create_a_duplicate.delay(repo_path)
     r = step1.get()
     print("step1 result:{0}".format(r))
 
-    step2 = updating_duplicated_repo.delay(test_repo)
+    step2 = updating_duplicated_repo.delay(repo_path)
     r = step2.get()
     print("step2 result:{0}".format(r))
 
-    step3 = update_repo.delay(test_repo)
+    step3 = update_repo.delay(repo_path)
     r = step3.get()
     print("step3 result:{0}".format(r))
 
@@ -23,5 +23,7 @@ if __name__ == '__main__':
         key_name = key.decode('utf-8')
         if ".git_status" in key_name:
             repo_list.append(key_name.replace(".git_status", ".git"))
-    test_repo = "github.com/moby/moby.git"
-    update_1_repo(test_repo)
+    for repo in repo_list:
+        update_1_repo(repo)
+
+# */3 * * * * /usr/local/bin/python3 -u /root/update.py >> /root/log/updater.log 2>> /root/log/updater.log

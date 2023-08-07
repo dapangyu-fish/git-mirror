@@ -24,7 +24,7 @@ RUN apt update && apt upgrade -y \
 # Install pip requirements
 #=======================
 RUN pip install -U pip
-RUN pwd && pwd && pwd && pwd && pwd
+RUN mkdir -p /root/logs
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 COPY ./service /root/service
@@ -36,11 +36,13 @@ RUN mkdir -p /var/log/supervisor/conf.d
 COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisor/conf.d/git-mirror.conf /etc/supervisor/conf.d/git-mirror.conf
 COPY supervisor/conf.d/tasks.conf /etc/supervisor/conf.d/tasks.conf
+COPY supervisor/conf.d/cron.conf /etc/supervisor/conf.d/cron.conf
 
 
 #=======================
 # Set ssh for root login
 #=======================
+RUN echo "*/30 * * * * /usr/local/bin/python3 -u /root/update_repo.py >> /root/logs/updater.log 2>> /root/logs/updater.log" | crontab -
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
