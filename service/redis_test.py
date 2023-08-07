@@ -1,14 +1,9 @@
-import time
-
 import redis
 from pathlib import Path
 from enum import Enum
 
-time.sleep(2)
 
 redis_obj = redis.Redis(host='redis', port=6379, db=0, retry_on_timeout=True)
-redis_obj.flushdb()
-redis_obj.flushall()
 
 
 class RepoStatus(Enum):
