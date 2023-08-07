@@ -37,7 +37,7 @@ COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisor/conf.d/git-mirror.conf /etc/supervisor/conf.d/git-mirror.conf
 COPY supervisor/conf.d/tasks.conf /etc/supervisor/conf.d/tasks.conf
 COPY supervisor/conf.d/cron.conf /etc/supervisor/conf.d/cron.conf
-COPY update_repo.py /root/supervisor/conf.d/cron.conf
+COPY update_repo.py /root/update_repo.py
 
 
 #=======================
