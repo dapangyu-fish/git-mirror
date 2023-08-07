@@ -1,7 +1,3 @@
-import sys
-
-sys.path.append('/root/service')
-sys.path.append('/root/tasks')
 from service.redis_test import RedisShark, redis_obj, RepoStatus
 from tasks.tasks import create_a_duplicate, updating_duplicated_repo, update_repo
 
