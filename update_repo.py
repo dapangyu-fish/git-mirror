@@ -2,7 +2,17 @@ from service.redis_test import RedisShark, redis_obj, RepoStatus
 from tasks.tasks import create_a_duplicate, updating_duplicated_repo, update_repo
 
 
+def is_latest_refs():
+    remotes_refs = []
+    local_refs = []
+    # 需要判断远端和本地refs是否完全一致,一致则不需要更新
+    return True
+
+
 def update_1_repo(repo_path):
+    if is_latest_refs():
+        print("repo:{0} is lasted now".format(repo_path))
+        return
     step1 = create_a_duplicate.delay(repo_path)
     r = step1.get()
     print("step1 result:{0}".format(r))
