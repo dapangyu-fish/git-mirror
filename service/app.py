@@ -35,7 +35,21 @@ def streaming_get(path_with_namespace):
     # print(path_with_namespace)
     service = request.args.get('service', default=None, type=None)
     path = Path("/root/repo", add_git_extension(path_with_namespace))
-    repo = GitShark(path) if path.exists() else GitShark.init(path)
+    repo = GitShark(path)
+    if path.exists():
+        r = RedisShark(path_with_namespace, redis_obj)
+        status = r.get_repo_status()
+        while status != str(RepoStatus.readable.value):
+            time.sleep(1)
+            status = r.get_repo_status()
+            print("===status:{0}\n".format(status))
+            print("===path_with_namespace:{0}\n".format(path_with_namespace))
+    else:
+        r = RedisShark(path_with_namespace, redis_obj)
+        r.update_repo_status(RepoStatus.initialization.value)
+        repo.init(path)
+        r.update_repo_status(RepoStatus.readable.value)
+
     data = repo.inforefs(service)
     return Response(data, mimetype=f'application/x-{service}-advertisement')
 
