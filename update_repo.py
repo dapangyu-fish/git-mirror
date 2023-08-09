@@ -42,7 +42,6 @@ def is_latest_refs(repo_path):
     return True
 
 
-
 def update_1_repo(repo_path):
     if is_latest_refs():
         print("repo:{0} is lasted now".format(repo_path))
