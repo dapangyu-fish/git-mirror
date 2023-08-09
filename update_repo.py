@@ -25,6 +25,14 @@ def is_latest_refs(repo_path):
         value = parts[0]
         local_refs[key] = value
     # 需要判断远端和本地refs是否完全一致,一致则不需要更新
+    for key in local_refs.keys():
+        if key in remote_refs:
+            if local_refs[key] == remote_refs[key]:
+                pass
+            else:
+                return False
+        else:
+            return False
     return True
 
 
