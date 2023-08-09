@@ -1,11 +1,44 @@
 from service.redis_test import RedisShark, redis_obj, RepoStatus
 from tasks.tasks import create_a_duplicate, updating_duplicated_repo, update_repo
+from subprocess import run, Popen, PIPE
 
 
-def is_latest_refs():
-    remotes_refs = []
-    local_refs = []
+def is_latest_refs(repo_path):
+    args = ['git', 'ls-remote', 'https://{0}'.format(repo_path)]
+    result = run(args, check=True, capture_output=True)
+    remote_refs = {}
+    lines = result.stdout.decode("utf-8").strip().split('\n')
+    for line in lines:
+        parts = line.split()
+        key = parts[1]
+        value = parts[0]
+        remote_refs[key] = value
+    # git show-ref
+    local_repo_path = '/root/repo/{0}'.format(repo_path)
+    args = ['git', 'show-ref']
+    result = run(args, check=True, capture_output=True, cwd=local_repo_path)
+    local_refs = {}
+    lines = result.stdout.decode("utf-8").strip().split('\n')
+    for line in lines:
+        parts = line.split()
+        key = parts[1]
+        value = parts[0]
+        local_refs[key] = value
     # 需要判断远端和本地refs是否完全一致,一致则不需要更新
+    for key in local_refs.keys():
+        if key in remote_refs:
+            if local_refs[key] == remote_refs[key]:
+                pass
+            else:
+                if "refs/remotes/upstream" in key:
+                    pass
+                else:
+                    return False
+        else:
+            if "refs/remotes/upstream" in key:
+                pass
+            else:
+                return False
     return True
 
 
