@@ -7,7 +7,7 @@ def is_latest_refs(repo_path):
     args = ['git', 'ls-remote', 'https://{0}'.format(repo_path)]
     result = run(args, check=True, capture_output=True)
     remote_refs = {}
-    lines = result.strip().split('\n')
+    lines = result.stdout.decode("utf-8").strip().split('\n')
     for line in lines:
         parts = line.split()
         key = parts[1]
@@ -18,7 +18,7 @@ def is_latest_refs(repo_path):
     args = ['git', 'show-ref']
     result = run(args, check=True, capture_output=True, cwd=local_repo_path)
     local_refs = {}
-    lines = result.strip().split('\n')
+    lines = result.stdout.decode("utf-8").strip().split('\n')
     for line in lines:
         parts = line.split()
         key = parts[1]
