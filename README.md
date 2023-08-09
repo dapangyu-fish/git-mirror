@@ -10,7 +10,7 @@
 - 可自动缓存github项目,首次拉取仓库去取决于镜像服务->github网络速度及内网速度。
 
 ## 测试地址（公益）
-- git clone http://home.dapangyu.work:8001/github.com/Genymobile/scrcpy.git
+- git clone https://home.dapangyu.work:8002/github.com/Genymobile/scrcpy.git
 - 初次缓存的仓库会比较慢
 ## 进度
 
