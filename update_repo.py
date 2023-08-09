@@ -30,10 +30,17 @@ def is_latest_refs(repo_path):
             if local_refs[key] == remote_refs[key]:
                 pass
             else:
-                return False
+                if "refs/remotes/upstream" in key:
+                    pass
+                else:
+                    return False
         else:
-            return False
+            if "refs/remotes/upstream" in key:
+                pass
+            else:
+                return False
     return True
+
 
 
 def update_1_repo(repo_path):
