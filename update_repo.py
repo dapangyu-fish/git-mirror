@@ -43,20 +43,20 @@ def is_latest_refs(repo_path):
 
 
 def update_1_repo(repo_path):
-    if is_latest_refs():
+    if is_latest_refs(repo_path):
         print("repo:{0} is lasted now".format(repo_path))
-        return
-    step1 = create_a_duplicate.delay(repo_path)
-    r = step1.get()
-    print("step1 result:{0}".format(r))
+    else:
+        step1 = create_a_duplicate.delay(repo_path)
+        r = step1.get()
+        print("step1 result:{0}".format(r))
 
-    step2 = updating_duplicated_repo.delay(repo_path)
-    r = step2.get()
-    print("step2 result:{0}".format(r))
+        step2 = updating_duplicated_repo.delay(repo_path)
+        r = step2.get()
+        print("step2 result:{0}".format(r))
 
-    step3 = update_repo.delay(repo_path)
-    r = step3.get()
-    print("step3 result:{0}".format(r))
+        step3 = update_repo.delay(repo_path)
+        r = step3.get()
+        print("step3 result:{0}".format(r))
 
 
 if __name__ == '__main__':
