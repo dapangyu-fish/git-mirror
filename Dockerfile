@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # install apt
 #=======================
 RUN apt update && apt upgrade -y \
-               && apt install -y wget curl tini git git-lfs rsync cron \
+               && apt install -y wget curl tini git git-lfs rsync cron ssh sudo \
                && apt autoclean -y \
                && apt autoremove -y \
                && rm -rf /var/lib/apt/lists/*
@@ -41,11 +41,27 @@ COPY update_repo.py /root/update_repo.py
 
 
 #=======================
-# Set ssh for root login
+# Set ssh for git user
 #=======================
+RUN useradd -ms /bin/bash git
+RUN sudo chown -R git:git /home/git
+USER git
+WORKDIR /home/git
+
+RUN cp -R /usr/share/doc/git/contrib/git-shell-commands /home/git/git-shell-commands
+RUN chown -R git:git /home/git/git-shell-commands
+RUN chsh -s /usr/bin/git-shell git
+
+
+#=======================
+# Set entrypoint
+#=======================
+USER root
 RUN echo "*/30 * * * * /usr/local/bin/python3 -u /root/update_repo.py >> /root/logs/updater.log 2>> /root/logs/updater.log" | crontab -
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
+                            echo "sudo chown -R git:git /home/git" >> /entrypoint.sh && \
+                            echo "service ssh start" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
                             echo "supervisord --nodaemon -c /etc/supervisor/supervisord.conf" >> /entrypoint.sh  && \
                             echo "if [ \$# -eq 0 ]; then" >> /entrypoint.sh && \
