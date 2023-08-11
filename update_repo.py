@@ -67,6 +67,9 @@ if __name__ == '__main__':
         if ".git_status" in key_name:
             repo_list.append(key_name.replace(".git_status", ".git"))
     for repo in repo_list:
-        update_1_repo(repo)
+        try:
+            update_1_repo(repo)
+        except:
+            print("update {0} failed".format(repo))
 
 # */3 * * * * /usr/local/bin/python3 -u /root/update.py >> /root/log/updater.log 2>> /root/log/updater.log
