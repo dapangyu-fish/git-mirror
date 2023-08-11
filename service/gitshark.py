@@ -27,7 +27,7 @@ class GitShark(object):
         args = ['mkdir', '-p', directory]
         run(args, check=True)
         args = ['git', 'clone', '--bare',
-                "https://github.com/{0}/{1}".format(directory.replace("/root/repo/github.com/", ""), filename), path]
+                "https://{0}/{1}".format(directory.replace("/root/repo/", ""), filename), path]
         run(args, check=True)
         args = ['git', 'lfs', 'fetch', '--all']
         run(args, check=True, cwd=path)
@@ -64,14 +64,3 @@ class GitShark(object):
 
         return io.BytesIO(data)
 
-    def create_a_copy(self, path: str):
-        directory, filename = os.path.split(self.path)
-        args = ['mkdir', '-p', directory.replace("/root/repo/github.com/", "/root/repo/tmp/github.com/")]
-        run(args, check=True)
-        pass
-
-    def sync_copy_from_upstream(self):
-        pass
-
-    def change_copy(self):
-        pass
