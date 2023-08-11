@@ -45,9 +45,6 @@ COPY update_repo.py /root/update_repo.py
 #=======================
 RUN useradd -ms /bin/bash git
 RUN sudo chown -R git:git /home/git
-USER git
-WORKDIR /home/git
-
 RUN cp -R /usr/share/doc/git/contrib/git-shell-commands /home/git/git-shell-commands
 RUN chown -R git:git /home/git/git-shell-commands
 RUN chsh -s /usr/bin/git-shell git
