@@ -1,5 +1,5 @@
 # git-mirror
-# 超轻量github缓存镜像站
+# 超轻量github缓存镜像站(也支持其他git仓库,huggingface、gitlab...)
 主要解决内网github依赖加速问题
 
 ## 使用说明
