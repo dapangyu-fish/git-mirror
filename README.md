@@ -10,7 +10,12 @@
 - 可自动缓存github项目,首次拉取仓库去取决于镜像服务->github网络速度及内网速度。
 
 ## 测试地址（公益）
+- github
 - git clone https://home.dapangyu.work:8002/github.com/Genymobile/scrcpy.git
+- huggingface
+- git clone https://home.dapangyu.work:8002/huggingface.co/THUDM/chatglm-6b-int4.git
+- cd chatglm-6b-int4
+- git lfs fetch --all
 - 初次缓存的仓库会比较慢
 ## 进度
 
