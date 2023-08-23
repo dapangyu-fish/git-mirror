@@ -46,7 +46,7 @@ def streaming_get(path_with_namespace):
             print("===status:{0}\n".format(status))
             print("===path_with_namespace:{0}\n".format(path_with_namespace))
     else:
-        url = "https://{0}/info/refs?service=git-upload-pack".format("path_with_namespace")
+        url = "https://{0}/info/refs?service=git-upload-pack".format(path_with_namespace)
         ex_response = requests.get(url)
         if ex_response.status_code == 200:
             r = RedisShark(path_with_namespace, redis_obj)
