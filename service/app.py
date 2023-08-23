@@ -120,11 +120,12 @@ def update_repo(path_with_namespace):
     path_with_namespace = add_git_extension(path_with_namespace)
     pass
 
+
 @app.errorhandler(404)
 def handle_not_found_error(e):
     url = request.url
     method = request.method
-    return f'Requested URL not found: {method} {url}', 404
+    return f'Welcome to https://github.com/dapangyu-fish/git-mirror \n 求求了给个star吧！\n Web url not support(only support for git command): {method} {url}', 404
 
 
 if __name__ == '__main__':
