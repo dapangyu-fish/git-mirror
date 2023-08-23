@@ -125,7 +125,7 @@ def update_repo(path_with_namespace):
 def handle_not_found_error(e):
     url = request.url
     method = request.method
-    return render_template('/root/service/404.html'), 404
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
