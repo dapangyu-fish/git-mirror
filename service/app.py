@@ -2,7 +2,7 @@ import json
 import os
 import time
 
-from flask import Flask, Response, request, jsonify, after_this_request
+from flask import Flask, Response, request, jsonify, after_this_request, render_template
 
 from pathlib import Path
 from service.gitshark import GitShark
@@ -125,7 +125,7 @@ def update_repo(path_with_namespace):
 def handle_not_found_error(e):
     url = request.url
     method = request.method
-    return f'Welcome to https://github.com/dapangyu-fish/git-mirror \n 求求了给个star吧！\n Web url not support(only support for git command): {method} {url}', 404
+    return render_template('/root/service/404.html'), 404
 
 
 if __name__ == '__main__':
