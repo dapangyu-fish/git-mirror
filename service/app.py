@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import requests
 
 from flask import Flask, Response, request, jsonify, after_this_request, render_template
 
@@ -45,10 +46,15 @@ def streaming_get(path_with_namespace):
             print("===status:{0}\n".format(status))
             print("===path_with_namespace:{0}\n".format(path_with_namespace))
     else:
-        r = RedisShark(path_with_namespace, redis_obj)
-        r.update_repo_status(RepoStatus.initialization.value)
-        repo.init(path)
-        r.update_repo_status(RepoStatus.readable.value)
+        url = "https://{0}/info/refs?service=git-upload-pack".format("path_with_namespace")
+        ex_response = requests.get(url)
+        if ex_response.status_code == 200:
+            r = RedisShark(path_with_namespace, redis_obj)
+            r.update_repo_status(RepoStatus.initialization.value)
+            repo.init(path)
+            r.update_repo_status(RepoStatus.readable.value)
+        else:
+            return 'repo not found', 404
 
     data = repo.inforefs(service)
     return Response(data, mimetype=f'application/x-{service}-advertisement')
