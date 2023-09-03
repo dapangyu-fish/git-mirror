@@ -62,13 +62,16 @@
             document.body.removeChild(el);
             alert('复制成功！');
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyButton = document.querySelector('.copy-button');
+            copyButton.addEventListener('click', function() {
+                copyToClipboard('git clone {{ url }}');
+            });
+        });
     </script>
     <p>有帮助的话可以给一个 star 谢谢🙏</p>
     <p>仓库地址: <a href="https://github.com/dapangyu-fish/git-mirror">https://github.com/dapangyu-fish/git-mirror</a></p>
     <p>GitHub链接: <a href="https://github.com/dapangyu-fish/git-mirror">GitHub page</a>.</p>
-    <script>
-        // 自动复制命令并提示复制成功
-        copyToClipboard('git clone {{ url }}');
-    </script>
 </body>
 </html>
