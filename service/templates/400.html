@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>400 Bad Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>400 Bad Request</h1>
+    <p>这是一个支持自动更新本地缓存的GitHub镜像站</p>
+    <p>仅支持git客户端拉取仓库请求，可私有部署哦～</p>
+    <p>请在终端中使用以下命令拉取仓库</p>
+    <p>git clone {{ url }}</p>
+    <button onclick="copyToClipboard('{{ url }}')">复制</button>
+    <script>
+        function copyToClipboard(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert('复制成功！');
+        }
+    </script>
+    <p>喜欢的话可以给一个 star 谢谢🙏</p>
+    <p>仓库地址: <a href="https://github.com/dapangyu-fish/git-mirror">https://github.com/dapangyu-fish/git-mirror</a></p>
+    <p>GitHub链接: <a href="https://github.com/dapangyu-fish/git-mirror">GitHub page</a>.</p>
+</body>
+</html>
