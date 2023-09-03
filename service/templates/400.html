@@ -60,13 +60,13 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert('复制成功！');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             const copyButton = document.querySelector('.copy-button');
             copyButton.addEventListener('click', function() {
                 copyToClipboard('git clone {{ url }}');
+                alert('复制成功！');
             });
         });
     </script>
