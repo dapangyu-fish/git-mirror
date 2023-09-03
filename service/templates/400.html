@@ -5,30 +5,43 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background: linear-gradient(to bottom right, #1e5799, #2989d8);
+            color: #fff;
             text-align: center;
             padding: 50px;
         }
 
         h1 {
-            color: #333;
             font-size: 36px;
             margin-bottom: 20px;
         }
 
         p {
-            color: #666;
             font-size: 18px;
             margin-bottom: 10px;
         }
 
         a {
-            color: #0066cc;
+            color: #ffd700;
             text-decoration: none;
         }
 
         a:hover {
             text-decoration: underline;
+        }
+
+        .copy-button {
+            background-color: #ffd700;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .copy-button:hover {
+            background-color: #ffcc00;
         }
     </style>
 </head>
@@ -38,7 +51,7 @@
     <p>仅支持git客户端拉取仓库请求，可私有部署哦～</p>
     <p>请在终端中使用以下命令拉取仓库</p>
     <p>git clone {{ url }}</p>
-    <button onclick="copyToClipboard('{{ url }}')">复制</button>
+    <button class="copy-button" onclick="copyToClipboard('git clone {{ url }}')">复制git命令</button>
     <script>
         function copyToClipboard(text) {
             const el = document.createElement('textarea');
@@ -50,8 +63,12 @@
             alert('复制成功！');
         }
     </script>
-    <p>喜欢的话可以给一个 star 谢谢🙏</p>
+    <p>有帮助的话可以给一个 star 谢谢🙏</p>
     <p>仓库地址: <a href="https://github.com/dapangyu-fish/git-mirror">https://github.com/dapangyu-fish/git-mirror</a></p>
     <p>GitHub链接: <a href="https://github.com/dapangyu-fish/git-mirror">GitHub page</a>.</p>
+    <script>
+        // 自动复制命令并提示复制成功
+        copyToClipboard('git clone {{ url }}');
+    </script>
 </body>
 </html>
