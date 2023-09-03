@@ -130,7 +130,7 @@ def update_repo(path_with_namespace):
 @app.errorhandler(404)
 def handle_not_found_error(e):
     url = request.url
-    method = request.method
+    url = url.replace("http://home.dapangyu.work", "https://home.dapangyu.work:8002")
     return render_template('400.html', url=url), 400
 
 
