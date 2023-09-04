@@ -62,11 +62,8 @@
     <ul>
         {% for directory in directories %}
         <li>
-            <button onclick="copyText('http://{{ directory }}')">Copy 1</button>
-            {{ directory }}
-        </li>
-        <li>
-            <button onclick="copyText('http://{{ EXTERNAL_URL }}/{{ directory }}')">Copy 2</button>
+            <button onclick="copyText('https://{{ directory }}')">Copy 1</button>
+            <button onclick="copyText('{{ EXTERNAL_URL }}/{{ directory }}')">Copy 2</button>
             {{ directory }}
         </li>
         {% endfor %}
