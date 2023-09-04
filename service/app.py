@@ -137,6 +137,35 @@ def handle_not_found_error(e):
     return render_template('400.html', url=url), 400
 
 
+def find_git_directories(directory):
+    git_dirs = []
+    subdirectories = []
+    for item in os.listdir(directory):
+        item_path = os.path.join(directory, item)
+        if os.path.isdir(item_path):
+            subdirectories.append(item)
+    for subdir in subdirectories:
+        if subdir.endswith('.git'):
+            repo_dir = os.path.join(directory, subdir)
+            git_dirs.append(repo_dir)
+        else:
+            dir = os.path.join(directory, subdir)
+            git_dirs.extend(find_git_directories(dir))
+    return git_dirs
+
+
+@app.route('/')
+def index():
+    directories = find_git_directories("/root/repo")
+    git_dir = []
+    for dir in directories:
+        EXTERNAL_URL = os.environ.get('EXTERNAL_URL')
+        git_url = "{0}/{1}".format(EXTERNAL_URL, dir)
+        git_dir.append(git_url)
+
+    return render_template('index.html', files=[], directories=git_url)
+
+
 if __name__ == '__main__':
     app.run(port=8001, host="127.0.0.1")
     # gunicorn gitserver:app -w 8
