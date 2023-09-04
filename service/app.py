@@ -158,12 +158,11 @@ def find_git_directories(directory):
 def index():
     directories = find_git_directories("/root/repo")
     git_dir = []
-    for dir in directories:
-        EXTERNAL_URL = os.environ.get('EXTERNAL_URL')
-        git_url = "{0}/{1}".format(EXTERNAL_URL, dir)
+    EXTERNAL_URL = os.environ.get('EXTERNAL_URL')
+    for dir_t in directories:
+        git_url = "{0}/{1}".format(EXTERNAL_URL, dir_t)
         git_dir.append(git_url)
-
-    return render_template('index.html', files=[], directories=git_url)
+    return render_template('index.html', directories=git_dir)
 
 
 if __name__ == '__main__':
