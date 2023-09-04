@@ -156,16 +156,14 @@ def find_git_directories(directory):
 
 @app.route('/')
 def index():
-    # 获取当前目录
-    current_dir = os.getcwd()
-    # 获取当前目录下的所有文件和文件夹
-    items = os.listdir(current_dir)
-    # 将文件和文件夹分别放入不同的列表
-    files = []
-
     directories = find_git_directories("/root/repo")
+    git_dir = []
+    for dir in directories:
+        EXTERNAL_URL = os.environ.get('EXTERNAL_URL')
+        git_url = "{0}/{1}".format(EXTERNAL_URL, dir)
+        git_dir.append(git_url)
 
-    return render_template('index.html', files=files, directories=directories)
+    return render_template('index.html', files=[], directories=git_url)
 
 
 if __name__ == '__main__':
