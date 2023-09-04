@@ -160,9 +160,10 @@ def index():
     git_dir = []
     EXTERNAL_URL = os.environ.get('EXTERNAL_URL')
     for dir_t in directories:
-        git_url = "{0}/{1}".format(EXTERNAL_URL, dir_t)
-        git_dir.append(git_url)
-    return render_template('index.html', directories=git_dir)
+        index = dir_t.find("/", dir_t.find("/", dir_t.find("/") + 1) + 1)
+        repo_path = dir_t[index + 1:]
+        git_dir.append(repo_path)
+    return render_template('index.html', directories=git_dir, EXTERNAL_URL=EXTERNAL_URL)
 
 
 if __name__ == '__main__':
