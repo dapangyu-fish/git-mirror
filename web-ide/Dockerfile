@@ -27,7 +27,7 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh
 RUN touch /entrypoint.sh && chmod +x /entrypoint.sh && \
                             echo "#!/usr/bin/env bash" >> /entrypoint.sh && \
                             echo "git lfs install" >> /entrypoint.sh && \
-                            echo "code-server --bind-addr=0.0.0.0:8080" >> /entrypoint.sh  && \
+                            echo "code-server --bind-addr=0.0.0.0:8080 --auth=none" >> /entrypoint.sh  && \
                             echo "if [ \$# -eq 0 ]; then" >> /entrypoint.sh && \
                             echo "  echo \"No command, running /bin/bash as default.\"" >> /entrypoint.sh && \
                             echo "  /bin/bash" >> /entrypoint.sh && \
