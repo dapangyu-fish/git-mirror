@@ -62,6 +62,7 @@
     <ul>
         {% for directory in directories %}
         <li>
+            <span>{{ '{:04d}'.format(loop.index) }} </span>
             <button onclick="copyText('https://{{ directory }}')">Copy 1</button>
             <button onclick="copyText('{{ EXTERNAL_URL }}/{{ directory }}')">Copy 2</button>
             {{ directory }}
