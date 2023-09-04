@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Directory Index</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #1e5799, #2989d8);
+            color: #fff;
+            text-align: left; /* 修改为左对齐 */
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .copy-button {
+            background-color: #ffd700;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .copy-button:hover {
+            background-color: #ffcc00;
+        }
+    </style>
+    <script>
+        function copyText(text) {
+            var textField = document.createElement('textarea');
+            textField.innerText = text;
+            document.body.appendChild(textField);
+            textField.select();
+            document.execCommand('copy');
+            textField.remove();
+            alert('Copied to clipboard: ' + text);
+        }
+    </script>
+</head>
+<body>
+    <h1>git repo</h1>
+    <h1>path</h1>
+    <ul>
+        {% for directory in directories %}
+        <li>
+            <button onclick="copyText('{{ directory }}')">Copy</button>
+            {{ directory }}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
