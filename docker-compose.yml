@@ -14,6 +14,7 @@ services:
       - WORKERS=10
       - BACKLOG=50
       - TIMEOUT=3600
+      - EXTERNAL_URL=https://home.dapangyu.work:8002
   nginx:
     image: nginx:latest
     volumes:
