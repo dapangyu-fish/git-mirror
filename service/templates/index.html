@@ -63,8 +63,8 @@
         {% for directory in directories %}
         <li>
             <span>{{ '{:04d}'.format(loop.index) }} </span>
-            <button onclick="copyText('https://{{ directory }}')">复制源地址</button>
-            <button onclick="copyText('{{ EXTERNAL_URL }}/{{ directory }}')">复制加速地址</button>
+            <button onclick="copyText('https://{{ directory }}')">源地址</button>
+            <button onclick="copyText('{{ EXTERNAL_URL }}/{{ directory }}')">缓存地址</button>
             {{ directory }}
         </li>
         {% endfor %}
